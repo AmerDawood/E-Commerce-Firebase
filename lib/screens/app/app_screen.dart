@@ -15,19 +15,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class AppScreen extends StatefulWidget {
- const AppScreen({Key? key}) : super(key: key);
+  const AppScreen({Key? key}) : super(key: key);
 
   @override
   _AppScreenState createState() => _AppScreenState();
 }
 
-class _AppScreenState extends State<AppScreen> {
+int _counter = 0;
+String _content = 'أستغفر الله';
 
+class _AppScreenState extends State<AppScreen> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    final User? user =_firebaseAuth.currentUser;
-    final uid =user!.uid;
+    final User? user = _firebaseAuth.currentUser;
+    final uid = user!.uid;
     return Scaffold(
         drawer: Container(
           width: 250,
@@ -69,13 +71,12 @@ class _AppScreenState extends State<AppScreen> {
                 SizedBox(
                   height: 8,
                 ),
-
                 ListTile(
                   title: Text(
                     'Profile',
-                      style: TextStyle(
-                        fontSize: 23,
-                      ),
+                    style: TextStyle(
+                      fontSize: 23,
+                    ),
                   ),
                   leading: Icon(
                     Icons.man_outlined,
@@ -85,9 +86,12 @@ class _AppScreenState extends State<AppScreen> {
                   trailing: IconButton(
                     onPressed: () {
                       Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder:(context) {
-                       return HomeScreen(userId:uid,);
-                      },));
+                        builder: (context) {
+                          return HomeScreen(
+                            userId: uid,
+                          );
+                        },
+                      ));
                     },
                     icon: Icon(Icons.arrow_forward_ios),
                   ),
@@ -110,8 +114,8 @@ class _AppScreenState extends State<AppScreen> {
                       style: TextStyle(
                         fontSize: 23,
                       )),
-                  leading:
-                      Icon(Icons.question_answer, color: Colors.black, size: 30),
+                  leading: Icon(Icons.question_answer,
+                      color: Colors.black, size: 30),
                   trailing: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.arrow_forward_ios),
@@ -135,7 +139,7 @@ class _AppScreenState extends State<AppScreen> {
                       )),
                   leading: Icon(Icons.login, color: Colors.black, size: 30),
                   trailing: IconButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       await FbAuthController().signOut();
                       Navigator.pushReplacementNamed(context, '/login_screen');
                     },
@@ -173,7 +177,11 @@ class _AppScreenState extends State<AppScreen> {
           title: Text(
             'E-Commerce',
             style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 30,
+                fontFamily: 'Redressed-Regular',
+            ),
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -191,36 +199,70 @@ class _AppScreenState extends State<AppScreen> {
               );
             },
           ),
+          iconTheme: IconThemeData(color: Colors.black),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: IconButton(
-                  onPressed: () {
-                   PopupMenuButton<int>(
-                     itemBuilder: (context) {
-                       return [
-                       PopupMenuItem(
-                         child: Text('Eng(english)',),
-                         value: 1,
-                       ),
-                       PopupMenuItem(
-                         child: Text('arb (arabic)',),
-                         value: 1,
-                       ),
-                         PopupMenuItem(
-                           child: Text('arb (arabic)',),
-                           value: 1,
-                         ),
-                       ];
+            PopupMenuButton<String>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onSelected: (String selectedItem) {
+                  if (_content != selectedItem) {
+                    setState(() {
+                      _content = selectedItem;
+                      _counter = 0;
+                    });
+                  }
+                },
+                offset: Offset(15, 40),
+                color: Colors.lightBlueAccent.withOpacity(0.5),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Text(
+                            'language',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'fontToAll',
 
-                     },
-                   );
-                  },
-                  icon: Icon(
-                    Icons.more_vert_outlined,
-                    color: Colors.black,
-                  )),
-            ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.language,
+                                color: Colors.black,
+
+                              ))
+                        ],
+                      ),
+                      value: ' language',
+                    ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Text(
+                            'Color',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'fontToAll',
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.color_lens,
+                                color: Colors.black,
+                              ))
+                        ],
+                      ),
+                      value: 'Color',
+                    ),
+                  ];
+                }),
           ],
         ),
         body: ListView(
@@ -295,11 +337,12 @@ class _AppScreenState extends State<AppScreen> {
                   child: InkWell(
                     onTap: () {
                       Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder:(context) {
+                        builder: (context) {
                           return CategoryScreen(
                             proID: '',
                           );
-                        },));
+                        },
+                      ));
                     },
                     child: const Text(
                       'See all',
@@ -567,14 +610,13 @@ class _AppScreenState extends State<AppScreen> {
                   padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
                   child: InkWell(
                     onTap: () {
-
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder:(context) {
-                            return ProductsScreen(
-                             proID: '',
-                            );
-                          },));
-
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ProductsScreen(
+                            proID: '',
+                          );
+                        },
+                      ));
                     },
                     child: Text(
                       'See all',
@@ -604,10 +646,12 @@ class _AppScreenState extends State<AppScreen> {
                         height: 400,
                         child: Container(
                           child: GridView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
-                                childAspectRatio: 3 /3,
+                                childAspectRatio: 3 / 3,
                                 crossAxisSpacing: 5,
                                 mainAxisSpacing: 5,
                               ),
@@ -626,23 +670,22 @@ class _AppScreenState extends State<AppScreen> {
                                         width: double.infinity,
                                         fit: BoxFit.cover,
                                         height: double.infinity,
-
                                         image: NetworkImage(
                                           '${pro[index].get('imageUrl')}',
-
                                         ),
-
                                       ),
                                       PositionedDirectional(
                                         bottom: 0,
                                         end: 0,
                                         start: 0,
                                         child: Container(
-                                          alignment: AlignmentDirectional.center,
+                                          alignment:
+                                              AlignmentDirectional.center,
                                           color: Colors.black45,
                                           height: 60,
-                                          child:Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 '${pro[index].get('name')}',

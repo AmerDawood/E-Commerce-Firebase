@@ -27,38 +27,43 @@ class CartPdt extends StatelessWidget with Helpers {
       children:[
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 3),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey, width: 2),
-            ),
-            child: Center(
-              child: ListTile(
-                leading: Container(
-                  width: 100,
-                  height: 100,
-                  child: Image.network(imageUrl),
-                ),
-                title: Text(
-                  text,
-                  style: TextStyle(fontSize: 23, color: Colors.black),
-                ),
-                subtitle: Text(
-                  '$price \$',
-                  style: TextStyle(fontSize: 20, color: Colors.green),
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    if (true) {
-                      cart.removeItem(id);
-                      // showSnackBar(context: context, message: 'Deleted successfully',error: false);
-                    }
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                    size: 25,
+          child: InkWell(
+            onTap: (){
+              Navigator.pushReplacementNamed(context, '/buy_screen');
+            },
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey, width: 2),
+              ),
+              child: Center(
+                child: ListTile(
+                  leading: Container(
+                    width: 100,
+                    height: 100,
+                    child: Image.network(imageUrl),
+                  ),
+                  title: Text(
+                    text,
+                    style: TextStyle(fontSize: 23, color: Colors.black),
+                  ),
+                  subtitle: Text(
+                    '$price \$',
+                    style: TextStyle(fontSize: 20, color: Colors.green),
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      if (true) {
+                        cart.removeItem(id);
+                        // showSnackBar(context: context, message: 'Deleted successfully',error: false);
+                      }
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 25,
+                    ),
                   ),
                 ),
               ),
