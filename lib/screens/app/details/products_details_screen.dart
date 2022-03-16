@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/provider/cart2.dart';
 import 'package:e_commerce_firebase/screens/app/category_screen.dart';
 import 'package:e_commerce_firebase/screens/app/products_screen.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
@@ -66,6 +67,7 @@ class _DetailsScreenState extends State<Products1DetailsScreen> with Helpers {
 
   @override
   Widget build(BuildContext context) {
+    final cart2 = Provider.of<Cart2>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -276,7 +278,14 @@ class _DetailsScreenState extends State<Products1DetailsScreen> with Helpers {
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: ElevatedButton(
-                  onPressed: (){},
+                      onPressed: (){
+                        if(true){
+                          cart2.addItem(
+                              widget.productID
+                          );
+                          showSnackBar(context: context, message: 'Product add successfully',error: false);
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue.withOpacity(0.6),
                         minimumSize: Size(30, 50),

@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/cart.dart';
+import '../../../provider/cart1.dart';
 import '../../../widgets/slider_top_app.dart';
 
 class SProductsScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
+    final cart1 = Provider.of<Cart1>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -160,15 +161,16 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
                         child:Column(
                           children: [
                             Text(
-                              ' Old:${price} \$',
+                              '${price} \$',
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.lineThrough,
                               ),
                             ),
                             Text(
-                              ' New: ${newPrice} \$',
+                              '${newPrice} \$',
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.green,
@@ -287,7 +289,7 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
                       onPressed: (){
 
                         if(true){
-                          cart.addItem(
+                          cart1.addItem(
                             widget.productID,
                           );
                           showSnackBar(context: context, message: 'Product add successfully',error: false);

@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/provider/cart1.dart';
+import 'package:e_commerce_firebase/provider/cart2.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +100,8 @@ class _NotfecationScreenState extends State<NotificationScreen>with
   @override
   Widget build(BuildContext context){
     final cart = Provider.of<Cart>(context);
+    final cart1 = Provider.of<Cart1>(context);
+    final cart2 = Provider.of<Cart2>(context);
     return Scaffold(
      backgroundColor: Colors.white,
     appBar: AppBar(
@@ -110,7 +116,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with
           ),
         ),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -152,12 +158,34 @@ class _NotfecationScreenState extends State<NotificationScreen>with
               ],
             ),
           ),
+          Row(
+            children: [
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: TextButton(
+                  onPressed:(){
+                    cart.clear();
+                    cart1.clear();
+                    cart2.clear();
+                  },
+                  child: Text('Clear all',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           IndexedStack(
             index: _indexTab,
             children: [
               Container(
-                child:   SizedBox(
-                  height: 400,
+                child:SizedBox(
+                  height: 570,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: StreamBuilder<QuerySnapshot>(
@@ -207,7 +235,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with
               ),
               Container(
               child:   SizedBox(
-                height: 400,
+                height: 570,
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: StreamBuilder<QuerySnapshot>(
@@ -219,7 +247,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with
                             );
                           } else if (snapshot.hasData){
                             return ListView.builder(
-                              itemCount:cart.items.length,
+                              itemCount:cart1.items.length,
                               itemBuilder: (BuildContext ctx, index)=> CartPdt(
                                 text:snapshot.data!.docs[index]['name'],
                                 price: snapshot.data!.docs[index]['price'],
@@ -257,7 +285,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with
               ),
               Container(
                 child:   SizedBox(
-                  height: 400,
+                  height: 570,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: StreamBuilder<QuerySnapshot>(
@@ -269,7 +297,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with
                             );
                           } else if (snapshot.hasData){
                             return ListView.builder(
-                              itemCount:cart.items.length,
+                              itemCount:cart2.items.length,
                               itemBuilder: (BuildContext ctx, index)=> CartPdt(
                                 text:snapshot.data!.docs[index]['name'],
                                 price: snapshot.data!.docs[index]['price'],

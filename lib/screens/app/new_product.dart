@@ -85,7 +85,7 @@ class _NewProductsState extends State<NewProducts> {
                           start:0,
                           child: Container(
                             alignment: AlignmentDirectional.center,
-                            color: Colors.black.withOpacity(0.7),
+                            color: Colors.black.withOpacity(0.3),
                             height: 60,
                             child:Row(
                               children: [
@@ -94,10 +94,11 @@ class _NewProductsState extends State<NewProducts> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        'Price :  ${prodref[index].get('price')} \$',
+                                        '${prodref[index].get('name')}',
                                         style: TextStyle(
                                           fontSize: 22,
-                                          color: Colors.red,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                         textAlign: TextAlign.start,
                                       ),
@@ -108,6 +109,7 @@ class _NewProductsState extends State<NewProducts> {
                                         style: TextStyle(
                                           fontSize: 22,
                                           color: Colors.green,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -117,7 +119,6 @@ class _NewProductsState extends State<NewProducts> {
                                 Container(
                                   height: 100,
                                   width: 60,
-                                  color: Colors.black.withOpacity(0.5),
                                   child:IconButton(
                                     onPressed: (){
                                       Navigator.pushReplacement(context, MaterialPageRoute(
@@ -125,7 +126,7 @@ class _NewProductsState extends State<NewProducts> {
                                           return SProductsScreen(productID:snapshot.data!.docs[index]['productID']);
                                         },));                                    },
                                     icon: Icon(
-                                      Icons.subdirectory_arrow_right,
+                                      Icons.arrow_forward_ios_sharp,
                                       color: Colors.red,
                                     ),
                                   ),
