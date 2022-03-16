@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/cart.dart';
 import '../../../widgets/slider_top_app.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -62,6 +63,8 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body:_isLoading?
@@ -271,7 +274,14 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: (){
+                        if(true){
+                          cart.addItem(
+                              widget.productID
+                          );
+                          showSnackBar(context: context, message: 'Product add successfully',error: false);
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue.withOpacity(0.6),
                         minimumSize: Size(30, 50),
@@ -281,7 +291,7 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
                         ),
                       ),
                       child: Text(
-                        'Add to Chart',
+                        'Add to Cart',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

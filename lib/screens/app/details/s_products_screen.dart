@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/cart.dart';
 import '../../../widgets/slider_top_app.dart';
 
 class SProductsScreen extends StatefulWidget {
@@ -64,6 +65,8 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body:_isLoading?
@@ -281,7 +284,15 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
                   Padding(
                     padding: const EdgeInsets.only(top: 30,bottom: 20),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: (){
+
+                        if(true){
+                          cart.addItem(
+                            widget.productID,
+                          );
+                          showSnackBar(context: context, message: 'Product add successfully',error: false);
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue.withOpacity(0.6),
                         minimumSize: Size(30, 50),

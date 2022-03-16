@@ -5,9 +5,7 @@ class CartItem {
 
 
   CartItem(
-      {required this.id,
-
-      });
+      {required this.id,});
 }
 
 class Cart with ChangeNotifier {

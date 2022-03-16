@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controller/fb_controllers/fb_firestore_controller.dart';
@@ -15,7 +16,12 @@ class NotificationScreen extends StatefulWidget {
 
 
 
-class _NotfecationScreenState extends State<NotificationScreen>with Helpers{
+class _NotfecationScreenState extends State<NotificationScreen>with
+    Helpers,
+    SingleTickerProviderStateMixin
+{
+  late TabController _tabController;
+  int _indexTab = 0;
   String id ='';
   String productId='';
   double price = 0;
@@ -23,6 +29,19 @@ class _NotfecationScreenState extends State<NotificationScreen>with Helpers{
   String name='';
   String imageUrl ='';
   bool _isLoading =true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tabController.dispose();
+    super.dispose();
+  }
 
   void getCategoryInCart() async {
     try {
@@ -49,9 +68,33 @@ class _NotfecationScreenState extends State<NotificationScreen>with Helpers{
       _isLoading=false;
     }
   }
-
+  void getSProductsInCart() async {
+    try {
+      _isLoading = true;
+      final DocumentSnapshot SProDoc = //widget.userId
+      await FirebaseFirestore.instance
+          .collection('SpecialProducts')
+          .doc(widget.productID)
+          .get();
+      if (SProDoc == null) {
+        return;
+      }
+      else {
+        setState(() {
+          name = SProDoc.get('name');
+          price= SProDoc.get('price');
+          imageUrl= SProDoc.get('imageUrl');
+          id= SProDoc.get('productID');
+        });
+      }
+    } catch (e) {
+      showSnackBar(context: context, message: 'No Data',error: true);
+    }finally{
+      _isLoading=false;
+    }
+  }
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     final cart = Provider.of<Cart>(context);
     return Scaffold(
      backgroundColor: Colors.white,
@@ -59,7 +102,7 @@ class _NotfecationScreenState extends State<NotificationScreen>with Helpers{
       backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title:Text(
           'My Cart',
           style: TextStyle(
               fontSize: 25,
@@ -67,62 +110,207 @@ class _NotfecationScreenState extends State<NotificationScreen>with Helpers{
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FbFireStoreController().getProducts(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasData){
-                return ListView.builder(
-                    itemCount:cart.items.length,
-                    itemBuilder: (BuildContext ctx, index)=> CartPdt(
-                  text:snapshot.data!.docs[index]['name'],
-                  price: snapshot.data!.docs[index]['price'],
-                  imageUrl:snapshot.data!.docs[index]['imageUrl'],
-                  id:snapshot.data!.docs[index]['productID'],
-                ),
-                );
-              } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.warning,
-                        size: 80,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'No Category',
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            }),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TabBar(
+              onTap: (value) {
+                setState(() {
+                  _indexTab = value;
+                });
+              },
+              controller: _tabController,
+              // unselectedLabelColor: Color.fromRGBO(169, 184, 189, 1),
+              // labelColor:  Color.fromRGBO(50, 68, 82, 1),
+              indicatorColor: Colors.blue,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey,
+              labelStyle: TextStyle(
+                fontSize: 20,
+              ),
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Color.fromRGBO(169, 184, 189, 1),
+              ),
+              // indicator:TabBarIndicatorSize.label,
 
+              tabs: [
+              Tab(
+
+                text: 'Category',
+              ),
+                Tab(
+                  text: 'S-Products',
+
+                ),
+                Tab(
+                  text: 'Products',
+
+                ),
+
+              ],
+            ),
+          ),
+          IndexedStack(
+            index: _indexTab,
+            children: [
+              Container(
+                child:   SizedBox(
+                  height: 400,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FbFireStoreController().getProducts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasData){
+                            return ListView.builder(
+                              itemCount:cart.items.length,
+                              itemBuilder: (BuildContext ctx, index)=> CartPdt(
+                                text:snapshot.data!.docs[index]['name'],
+                                price: snapshot.data!.docs[index]['price'],
+                                imageUrl:snapshot.data!.docs[index]['imageUrl'],
+                                id:snapshot.data!.docs[index]['productID'],
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.warning,
+                                    size: 80,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'No Category',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }),
+
+                  ),
+                ),
+              ),
+              Container(
+              child:   SizedBox(
+                height: 400,
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FbFireStoreController().getSpecialProducts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasData){
+                            return ListView.builder(
+                              itemCount:cart.items.length,
+                              itemBuilder: (BuildContext ctx, index)=> CartPdt(
+                                text:snapshot.data!.docs[index]['name'],
+                                price: snapshot.data!.docs[index]['price'],
+                                imageUrl:snapshot.data!.docs[index]['imageUrl'],
+                                id:snapshot.data!.docs[index]['productID'],
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.warning,
+                                    size: 80,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'No Category',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }),
+
+                  ),
+              ),
+              ),
+              Container(
+                child:   SizedBox(
+                  height: 400,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FbFireStoreController().getProducts1(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasData){
+                            return ListView.builder(
+                              itemCount:cart.items.length,
+                              itemBuilder: (BuildContext ctx, index)=> CartPdt(
+                                text:snapshot.data!.docs[index]['name'],
+                                price: snapshot.data!.docs[index]['price'],
+                                imageUrl:snapshot.data!.docs[index]['imageUrl'],
+                                id:snapshot.data!.docs[index]['productID'],
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.warning,
+                                    size: 80,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'No Category',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }),
+
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+        ],
       ),
+
     );
   }
 }
-
-// Expanded(
-//
-//   child: ListView.builder(
-//     itemCount: cart.items.length,
-//     itemBuilder: (ctx, i) => CartPdt(
-//       text: '$name',
-//       price: '$price',
-//     ),
-//   ),
-// ),

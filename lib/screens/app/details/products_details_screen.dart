@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/cart.dart';
 import '../../../widgets/slider_top_app.dart';
 
 class Products1DetailsScreen extends StatefulWidget {
@@ -65,6 +66,7 @@ class _DetailsScreenState extends State<Products1DetailsScreen> with Helpers {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       body:_isLoading?
@@ -274,7 +276,7 @@ class _DetailsScreenState extends State<Products1DetailsScreen> with Helpers {
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: ElevatedButton(
-                      onPressed: () {},
+                  onPressed: (){},
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue.withOpacity(0.6),
                         minimumSize: Size(30, 50),
