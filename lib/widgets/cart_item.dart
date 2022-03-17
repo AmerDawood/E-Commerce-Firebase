@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/screens/buy_screen.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +29,11 @@ class CartPdt extends StatelessWidget with Helpers {
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 3),
           child: InkWell(
-            onTap: (){
-              Navigator.pushReplacementNamed(context, '/buy_screen');
-            },
+            // onTap: (){
+            //  Navigator.push(context, MaterialPageRoute(builder:(context) {
+            //   return BuyScreen(pId:imageUrl,);
+            //  },));
+            // },
             child: Container(
               height: 100,
               decoration: BoxDecoration(

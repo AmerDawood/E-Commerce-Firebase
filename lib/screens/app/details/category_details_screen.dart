@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/screens/app/category_screen.dart';
+import 'package:e_commerce_firebase/screens/buy_screen.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -271,33 +272,45 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
 
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50),
-                    child: ElevatedButton(
-                      onPressed: (){
-                        if(true){
-                          cart.addItem(
-                              widget.productID
-                          );
-                          showSnackBar(context: context, message: 'Product add successfully',error: false);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue.withOpacity(0.6),
-                        minimumSize: Size(30, 50),
-                        fixedSize: Size(300, 30),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: ElevatedButton(
+                          onPressed: (){
+                            if(true){
+                              cart.addItem(
+                                  widget.productID
+                              );
+                              showSnackBar(context: context, message: 'Product add successfully',error: false);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue.withOpacity(0.6),
+                            minimumSize: Size(30, 50),
+                            fixedSize: Size(300, 30),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: Text(
+                            'Add to Cart',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                      child: Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      IconButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder:(context) {
+                            return BuyScreen(pId:widget.productID);
+                          },));
+                        },
+                        icon: Icon(Icons.done,size: 30,color: Colors.black,),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

@@ -1,7 +1,44 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/utils/helpers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-class BuyScreen extends StatelessWidget {
-  const BuyScreen({Key? key}) : super(key: key);
+import 'package:uuid/uuid.dart';
+class BuyScreen extends StatefulWidget {
+  final String pId;
+
+  BuyScreen({
+    required this.pId,
+  });
+
+  @override
+  State<BuyScreen> createState() => _BuyScreenState();
+}
+
+class _BuyScreenState extends State<BuyScreen> with Helpers{
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? authorName;
+  String?price;
+  String?productName;
+  void getData() async {
+    final DocumentSnapshot proBuy= await FirebaseFirestore.instance
+        .collection('products')
+        .doc(widget.pId)
+        .get();
+    if (proBuy == null){
+      return;
+    } else {
+      setState(() {
+        authorName = proBuy.get('name');
+      });
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +104,7 @@ class BuyScreen extends StatelessWidget {
                        ),
                        ),
                        Spacer(),
-                       Text('kgfhhk',
+                       Text('$authorName',
                          style: TextStyle(
                          fontSize: 25,
                          color: Colors.black,
@@ -133,7 +170,38 @@ class BuyScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 30,bottom: 20),
             child: ElevatedButton(
-              onPressed: (){
+              onPressed: () async {
+                try{
+                  if(true){
+                    final _generatedId = Uuid().v4();
+                    await FirebaseFirestore.instance.
+                    collection('users').
+                        doc('pLL5zU6Ezsd2d2LH6yCMZzv98Pb2').
+                    update({
+                      'orders':
+                      FieldValue.arrayUnion([
+                        {
+                          'ProId': _generatedId,
+                          'name': authorName,
+                          // 'time': Timestamp.now(),
+                        }
+                      ]
+                      ),
+                    });
+                    showSnackBar(
+                        context: context,
+                        message:
+                        'Order uploaded successfully ',
+                        error: false);
+
+                  }
+                  setState(() {
+
+                  });
+                }catch (e){
+                  showSnackBar(context: context, message: 'Something error',error: true);
+                  print(e);
+                }
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue.withOpacity(0.6),

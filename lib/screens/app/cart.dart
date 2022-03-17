@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../controller/fb_controllers/fb_firestore_controller.dart';
 import '../../provider/cart.dart';
 import '../../widgets/cart_item.dart';
+import '../buy_screen.dart';
 class NotificationScreen extends StatefulWidget {
   final String productID;
 
@@ -196,13 +197,15 @@ class _NotfecationScreenState extends State<NotificationScreen>with
                               child: CircularProgressIndicator(),
                             );
                           } else if (snapshot.hasData){
-                            return ListView.builder(
-                              itemCount:cart.items.length,
-                              itemBuilder: (BuildContext ctx, index)=> CartPdt(
-                                text:snapshot.data!.docs[index]['name'],
-                                price: snapshot.data!.docs[index]['price'],
-                                imageUrl:snapshot.data!.docs[index]['imageUrl'],
-                                id:snapshot.data!.docs[index]['productID'],
+                            return InkWell(
+                              child: ListView.builder(
+                                itemCount:cart.items.length,
+                                itemBuilder: (BuildContext ctx, index)=> CartPdt(
+                                  text:snapshot.data!.docs[index]['name'],
+                                  price: snapshot.data!.docs[index]['price'],
+                                  imageUrl:snapshot.data!.docs[index]['imageUrl'],
+                                  id:snapshot.data!.docs[index]['productID'],
+                                ),
                               ),
                             );
                           } else {

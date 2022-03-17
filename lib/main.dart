@@ -61,7 +61,7 @@ class MainMatiralApp extends StatelessWidget {
         '/forget_password': (context) => ForgetPassword(),
         // '/notification_screen': (context) => NotificationScreen(),
         // '/cart_screen': (context) => CartScreen(),
-        '/buy_screen': (context) => BuyScreen(),
+        // '/buy_screen': (context) => BuyScreen(),
 
       },
     );
