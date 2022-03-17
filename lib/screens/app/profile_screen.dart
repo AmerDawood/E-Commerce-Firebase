@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../controller/fb_controllers/fb_auth_controllers.dart';
+import '../../widgets/list_tile_profile.dart';
+
 class HomeScreen extends StatefulWidget {
   final String userId;
 
@@ -17,13 +20,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
-  String email = '';
-  String fullName = '';
-  String phoneNumber = '';
+  String email ='';
+  String fullName ='';
+  String phoneNumber ='';
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
     getUserData();
@@ -67,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
          leading: IconButton(
-           onPressed: ()=> Navigator.pushReplacementNamed(context, '/main_screen'),
+           onPressed: ()=>
+               Navigator.pushReplacementNamed(context, '/main_screen'),
            icon: Icon(
              Icons.arrow_back,
              color: Colors.black,
@@ -169,7 +173,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  trailing:Icon(Icons.arrow_forward_ios_sharp,color: Colors.black,size: 28,),
+                  trailing:IconButton(
+                    onPressed:(){
+                      Navigator.pushReplacementNamed(context, '/forget_password');
+                    },
+                   icon:Icon( Icons.arrow_forward_ios_sharp,
+                    color: Colors.black,
+                    size: 28,
+                   ),
+                  ),
                 ),
               ),
             ),
@@ -205,7 +217,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
-              trailing:Icon(Icons.logout,color: Colors.black,size: 28,),
+              trailing:
+              IconButton(
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Logout',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    ),
+                    content: const Text('Are you sure you want logout'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await FbAuthController().signOut();
+                          Navigator.pushReplacementNamed(context, '/login_screen');
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                ),
+              icon:Icon(Icons.logout,color: Colors.black,size: 28,),),
             ),
           ),
         ),
@@ -217,50 +256,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ListTileCon extends StatelessWidget {
-
-  final String text;
-  final Icon leadding;
-  final Icon trealing;
-  ListTileCon({
-    required this.text,
-    required this.leadding,
-    required this.trealing,
-});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.black,
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blueGrey.withOpacity(0.5),
-            spreadRadius: 4,
-            blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-        color: Colors.white,
-      ),
-      child: Center(
-        child: ListTile(
-          leading:leadding,
-          title: Text(
-            text,
-            style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
-          trailing:trealing,
-        ),
-      ),
-    );
-  }
-}

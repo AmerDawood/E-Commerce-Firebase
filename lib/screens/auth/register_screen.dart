@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/screens/auth/widgets/elevated_button_auth.dart';
+import 'package:e_commerce_firebase/screens/auth/widgets/text_field_auth.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -60,15 +62,14 @@ class _LoginScreenState extends State<RegisterScreen> with Helpers {
           ),
         ),
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushReplacementNamed(context, '/login_screen');
-          },
-          icon:Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-            size: 27,
-          )
-        ),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login_screen');
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: 27,
+            )),
         centerTitle: true,
       ),
       body: Padding(
@@ -94,238 +95,62 @@ class _LoginScreenState extends State<RegisterScreen> with Helpers {
             SizedBox(
               height: 20,
             ),
-
             SizedBox(
               height: 20,
             ),
-
-            TextField(
+            TextFieldAuth(
               controller: _fullNameController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Full Name',
-                prefixIcon: Icon(Icons.person),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              HintText: 'Full name',
+              icon: Icon(Icons.person),
+              textInputType: TextInputType.name,
+              obscureText: false,
             ),
-
             SizedBox(
               height: 10,
             ),
-            TextField(
+            TextFieldAuth(
               controller: _emailEditingController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Email',
-                prefixIcon: Icon(Icons.email),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              HintText: 'Email',
+              icon: Icon(Icons.email),
+              textInputType: TextInputType.emailAddress,
+              obscureText: false,
             ),
             SizedBox(
               height: 10,
             ),
-            TextField(
+            TextFieldAuth(
               controller: _passwordEditingController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'password',
-                prefixIcon: Icon(Icons.lock),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              HintText: 'Password',
+              icon: Icon(Icons.lock),
+              textInputType: TextInputType.visiblePassword,
+              obscureText: true,
             ),
             SizedBox(
               height: 12,
             ),
-
             SizedBox(
               height: 12,
             ),
-            TextField(
+            TextFieldAuth(
               controller: _mobilePhoneController,
-              // keyboardType:TextInputType.number,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Mobile',
-                prefixIcon: Icon(Icons.phone),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              HintText: 'Phone number',
+              icon: Icon(Icons.call),
+              textInputType: TextInputType.phone,
+              obscureText: false,
             ),
             SizedBox(
               height: 12,
             ),
-            ElevatedButton(
-              // important
-              onPressed: () async => await performRegister(),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'Register',
-                style: TextStyle(
-                  fontSize:
-                    25,
 
-                ),
-              ),
+            ElevatedButtonAuth(
+              text: 'Register',
+              function: () async => await performRegister(),
             ),
           ],
         ),
-    ),
+      ),
     );
-
-
   }
-  // void _cropImage(filePath) async {
-  //   File? cropImage = await ImageCropper().cropImage(
-  //       sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
-  //   if (cropImage != null) {
-  //     setState(() {
-  //       imageFile = cropImage;
-  //     });
-  //   }
-  // }
-  // void _pickImageWithCamera() async {
-  //   try {
-  //     PickedFile? pickedFile = await ImagePicker().getImage(
-  //         source: ImageSource.camera, maxWidth: 1080, maxHeight: 1080);
-  //     _cropImage(pickedFile!.path);
-  //   } catch (error) {
-  //     showSnackBar(context: context, message: '');
-  //   }
-  //
-  //
-  //   Navigator.pop(context);
-  // }
-  // void _pickImageWithGallery() async {
-  //   try {
-  //     PickedFile? pickedFile = await ImagePicker().getImage(
-  //         source: ImageSource.gallery, maxWidth: 1080, maxHeight: 1080);
-  //     _cropImage(pickedFile!.path);
-  //   } catch (error) {
-  //     showSnackBar(context: context, message: '');
-  //   }
-  //   Navigator.pop(context);
-  // }
-  // void _showImageDialog() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Text('Please choose an option'),
-  //           content: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               InkWell(
-  //                 onTap: _pickImageWithCamera,
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(4.0),
-  //                   child: Row(
-  //                     children: [
-  //                       Icon(
-  //                         Icons.camera,
-  //                         color: Colors.purple,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 7,
-  //                       ),
-  //                       Text(
-  //                         'Camera',
-  //                         style: TextStyle(color: Colors.purple),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //               InkWell(
-  //                 onTap: _pickImageWithGallery,
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(4.0),
-  //                   child: Row(
-  //                     children: [
-  //                       Icon(
-  //                         Icons.image,
-  //                         color: Colors.purple,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 7,
-  //                       ),
-  //                       Text(
-  //                         'Gallery',
-  //                         style: TextStyle(color: Colors.purple),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
-  //
 
   Future<void> performRegister() async {
     if (checkData()) {
@@ -341,49 +166,37 @@ class _LoginScreenState extends State<RegisterScreen> with Helpers {
 
   bool checkData() {
     if (_emailEditingController.text.isNotEmpty &&
-         _passwordEditingController.text.isNotEmpty&&
-         _fullNameController.text.isNotEmpty&&
-         _mobilePhoneController.text.isNotEmpty
-
-    ) {
+        _passwordEditingController.text.isNotEmpty &&
+        _fullNameController.text.isNotEmpty &&
+        _mobilePhoneController.text.isNotEmpty) {
       Navigator.pushReplacementNamed(context, '/login_screen');
       return true;
     }
-    showSnackBar(context: context, message: 'Enter required data',error: true);
+    showSnackBar(context: context, message: 'Enter required data', error: true);
     return false;
   }
 
-  Future<bool> createAccount(
-      {required BuildContext context,
-        required String email,
-        required String password,
-        required String fullName,
-        required String phoneNumber,
-      }) async {
-
-      try {
+  Future<bool> createAccount({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String fullName,
+    required String phoneNumber,
+  }) async {
+    try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      final User? user =  _firebaseAuth.currentUser;
-      final uid= user!.uid;
-
-      // final ref = FirebaseStorage.instance
-      //     .ref()
-      //     .child('userImages')
-      //     .child(uid + '.jpg');
-      // await ref.putFile(imageFile!);
-      // url = await ref.getDownloadURL();
-
-        FirebaseFirestore.instance.collection('users').doc(uid).set(
+      final User? user = _firebaseAuth.currentUser;
+      final uid = user!.uid;
+      FirebaseFirestore.instance.collection('users').doc(uid).set(
         {
-        'id':uid,
-        'email':_emailEditingController.text,
-        'createAt':Timestamp.now(),
-        'fullName':_fullNameController.text,
-        'phoneNumber':_mobilePhoneController.text,
+          'id': uid,
+          'email': _emailEditingController.text,
+          'createAt': Timestamp.now(),
+          'fullName': _fullNameController.text,
+          'phoneNumber': _mobilePhoneController.text,
         },
-        );
-
+      );
 
       userCredential.user?.sendEmailVerification();
       return true;
@@ -394,6 +207,7 @@ class _LoginScreenState extends State<RegisterScreen> with Helpers {
     }
     return false;
   }
+
   void _controlException(
       BuildContext context, FirebaseAuthException exception) {
     showSnackBar(

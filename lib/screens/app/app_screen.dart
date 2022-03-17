@@ -22,7 +22,7 @@ class AppScreen extends StatefulWidget {
 }
 
 int _counter = 0;
-String _content = 'أستغفر الله';
+String _content = '';
 
 class _AppScreenState extends State<AppScreen> {
   @override
@@ -139,10 +139,31 @@ class _AppScreenState extends State<AppScreen> {
                       )),
                   leading: Icon(Icons.login, color: Colors.black, size: 30),
                   trailing: IconButton(
-                    onPressed: () async {
-                      await FbAuthController().signOut();
-                      Navigator.pushReplacementNamed(context, '/login_screen');
-                    },
+                    onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Logout',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        content: const Text('Are you sure you want logout'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await FbAuthController().signOut();
+                              Navigator.pushReplacementNamed(context, '/login_screen');
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    ),
                     icon: Icon(Icons.arrow_forward_ios),
                   ),
                 ),

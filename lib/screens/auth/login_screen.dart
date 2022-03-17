@@ -1,4 +1,7 @@
 import 'package:e_commerce_firebase/controller/fb_controllers/fb_auth_controllers.dart';
+import 'package:e_commerce_firebase/screens/auth/widgets/elevated_button_auth.dart';
+import 'package:e_commerce_firebase/screens/auth/widgets/elevated_button_social.dart';
+import 'package:e_commerce_firebase/screens/auth/widgets/text_field_auth.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -87,79 +90,34 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 color: Colors.grey,
               ),
             ),
+
             SizedBox(
               height: 20,
             ),
-            TextField(
+            TextFieldAuth(
               controller: _emailEditingController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Email',
-                prefixIcon: Icon(Icons.email),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              icon: Icon(Icons.email),
+              HintText: 'Email',
+              textInputType: TextInputType.emailAddress,
+              obscureText: false,
             ),
             SizedBox(
               height: 10,
             ),
-            TextField(
+            TextFieldAuth(
               controller: _passwordEditingController,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'password',
-                prefixIcon: Icon(Icons.lock),
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+              icon: Icon(Icons.lock),
+              HintText: 'Password',
+              textInputType: TextInputType.visiblePassword,
+              obscureText: true,
+
             ),
             SizedBox(
               height: 12,
             ),
-            ElevatedButton(
-              // important
-              onPressed: () async => await performLogin(),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'LOGIN',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
+            ElevatedButtonAuth(
+              text: 'LOGIN',
+              function: () async => await performLogin(),
             ),
             SizedBox(
               height: 20,
@@ -193,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap:() => Navigator.pushReplacementNamed(context, '/forget_password'),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(
+                            context, '/forget_password'),
                     child: Text(
                       ' forget password !',
                       style: TextStyle(
@@ -202,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                       ),
                     ),
                   ),
-              ],),
+                ],),
             ),
             SizedBox(
               height: 6,
@@ -235,83 +195,17 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
             SizedBox(
               height: 10,
             ),
-
-            ElevatedButton(
-              // important
-              onPressed: () async {
-                await signInWithGoogle();
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                primary: Colors.grey.shade200,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.all(10,),
-
-                child:  Container(
-                    width: 40,
-                    height: 40,
-                    child: Image.asset(
-                      'images/google.png',
-                    ),
-                  ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    'Sign in with Google',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
+            ElevatedButtonSocial(text: 'Sign in with Google',
+                imageUrl: 'images/google.png',
+                function: () async=> await performLogin(),
             ),
             SizedBox(
               height: 15,
             ),
-            ElevatedButton(
-              // important
-              onPressed: () async => await performLogin(),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                primary: Colors.grey.shade200,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.all(10,),
-
-                    child:  Container(
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(
-                        'images/facebook.png',
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    'Sign in with Facebook',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-
+            ElevatedButtonSocial(text: 'Sign in with Facebook',
+              imageUrl: 'images/facebook.png',
+              function: () async=> await performLogin(),
             ),
-
           ],
         ),
       ),
@@ -342,3 +236,4 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
     }
   }
 }
+
