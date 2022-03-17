@@ -305,7 +305,7 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
                       IconButton(
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder:(context) {
-                            return BuyScreen(pId:widget.productID);
+                            return BuyScreen(pId:widget.productID,);
                           },));
                         },
                         icon: Icon(Icons.done,size: 30,color: Colors.black,),
