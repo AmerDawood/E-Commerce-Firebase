@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_firebase/provider/orders.dart';
 import 'package:e_commerce_firebase/screens/app/category_screen.dart';
 import 'package:e_commerce_firebase/screens/buy_screen.dart';
 import 'package:e_commerce_firebase/utils/helpers.dart';
@@ -65,7 +66,7 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
-
+    final FavoriteProducts =Provider.of<FavProducts>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body:_isLoading?
@@ -76,9 +77,9 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
           strokeWidth: 3,
         ),
       ): Column(
-        children: [
+        children:[
           Stack(
-            children: [
+            children:[
               Container(
                 width: double.infinity,
                 height: 300,
@@ -183,6 +184,9 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
                           ),
                           child: IconButton(
                             onPressed: () {
+                              FavoriteProducts.addFavProduct(
+                                 widget.productID,
+                              );
                               setState(() {
                                 loved =1;
                               });
@@ -275,41 +279,58 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 50),
-                        child: ElevatedButton(
-                          onPressed: (){
-                            if(true){
-                              cart.addItem(
-                                  widget.productID
-                              );
-                              showSnackBar(context: context, message: 'Product add successfully',error: false);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.blue.withOpacity(0.6),
-                            minimumSize: Size(30, 50),
-                            fixedSize: Size(300, 30),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                        padding: const EdgeInsets.only(top: 50,left: 10),
+                        child: Expanded(
+                          flex: 3,
+                          child: ElevatedButton(
+                            onPressed: (){
+                              if(true){
+                                cart.addItem(
+                                    widget.productID
+                                );
+                                showSnackBar(context: context, message: 'Product add successfully',error: false);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.blue.withOpacity(0.6),
+                              minimumSize: Size(30, 50),
+                              fixedSize: Size(300, 30),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            'Add to Cart',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            child: Text(
+                              'Add to Cart',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder:(context) {
-                            return BuyScreen(pId:widget.productID,);
-                          },));
-                        },
-                        icon: Icon(Icons.done,size: 30,color: Colors.black,),
-                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 50,left: 10,right: 10),
+                          child: InkWell(
+                              onTap:(){
+                                Navigator.push(context, MaterialPageRoute(builder:(context) {
+                                  return BuyScreen(pId:widget.productID,);
+                                },));
+                            },
+                            child: Container(
+                              child:  Image.network('https://icons-for-free.com/iconfiles/png/512/credit+card+debit+card+master+card+icon-1320184902602310693.png'),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.black,width: 2)
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+
                     ],
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:e_commerce_firebase/prefs/app_preferences.dart';
 import 'package:e_commerce_firebase/provider/cart.dart';
 import 'package:e_commerce_firebase/provider/cart1.dart';
 import 'package:e_commerce_firebase/provider/cart2.dart';
+import 'package:e_commerce_firebase/provider/orders.dart';
 import 'package:e_commerce_firebase/screens/app/app_screen.dart';
 import 'package:e_commerce_firebase/screens/app/category_screen.dart';
 import 'package:e_commerce_firebase/screens/app/details/category_details_screen.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<Cart>(create: (_) => Cart()),
         ChangeNotifierProvider<Cart1>(create: (_) => Cart1()),
         ChangeNotifierProvider<Cart2>(create: (_) => Cart2()),
+        ChangeNotifierProvider<FavProducts>(create: (_) => FavProducts()),
       ],
       child:MainMatiralApp(),
     );

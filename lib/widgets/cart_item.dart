@@ -29,11 +29,6 @@ class CartPdt extends StatelessWidget with Helpers {
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 3),
           child: InkWell(
-            // onTap: (){
-            //  Navigator.push(context, MaterialPageRoute(builder:(context) {
-            //   return BuyScreen(pId:imageUrl,);
-            //  },));
-            // },
             child: Container(
               height: 100,
               decoration: BoxDecoration(
