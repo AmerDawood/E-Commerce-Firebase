@@ -8,3 +8,9 @@ A new Flutter project.
 ## Auth Screens
 
 <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/auth-screens/Screenshot_1647704685.png" alt="drawing" width="200"/> <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/auth-screens/Screenshot_1647704722.png" alt="drawing" width="200"/>     <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/auth-screens/Screenshot_1647704727.png" alt="drawing" width="200"/> 
+ 
+ 
+ 
+ ## App Screens
+ 
+ <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704775.png" alt="drawing" width="200"/>       <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704814.png" alt="drawing" width="200"/>   <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704780.png" alt="drawing" width="200"/>   <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704789.png" alt="drawing" width="200"/>   <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704794.png" alt="drawing" width="200"/>    <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704799.png" alt="drawing" width="200"/>    <img src="https://github.com/AmerDawood/e_commerce_firebase/blob/master/images-app/app-screens/Screenshot_1647704806.png" alt="drawing" width="200"/>     
