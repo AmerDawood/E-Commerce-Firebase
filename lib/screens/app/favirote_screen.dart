@@ -42,31 +42,31 @@ class _FaviroteScreenState extends State<FaviroteScreen> {
                   return ListView.builder(
                     itemCount:FavoriteProducts.favProduct.length,
                     itemBuilder: (BuildContext ctx, index){
-                      return Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2,
-                            ),
-                          borderRadius: BorderRadius.circular(20),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: ListTile(
+                              leading:Container(
+                                height: 100,
+                                width: 100,
+                                child: Image.network(snapshot.data!.docs[index]['imageUrl']),
+                              ),
+                              title: Text(snapshot.data!.docs[index]['name'],),
+                              trailing: IconButton(
+                                onPressed: (){
 
-                        ),
-                        child: Center(
-                          child: ListTile(
-                            leading:Container(
-                              height: 100,
-                              width: 100,
-                              child: Image.network(snapshot.data!.docs[index]['imageUrl']),
-                            ),
-                            title: Text(snapshot.data!.docs[index]['name'],),
-                            trailing: IconButton(
-                              onPressed: (){
-                               setState(() {
-                                 _isSelected=false;
-                               });
-                              },
-                              icon: Icon(Icons.favorite,color:_isSelected? Colors.red:Colors.white,),
+                                },
+                                icon: Icon(Icons.favorite,color: Colors.red,),
+                              ),
                             ),
                           ),
                         ),

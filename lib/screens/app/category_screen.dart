@@ -93,7 +93,7 @@ class _CategoryScreenState extends State<CategoryScreen>with Helpers {
                               InkWell(
                                 onTap: () {
                                   Navigator.pushReplacement(context, MaterialPageRoute(
-                                    builder:(context) {
+                                    builder:(context){
                                       return DetailsScreen(
                                          productID:snapshot.data!.docs[index]['productID'],
                                       );

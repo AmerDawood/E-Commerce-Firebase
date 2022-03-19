@@ -17,18 +17,3 @@ class FbFireStoreController{
   }
 
 }
-
-
-/*
-  // For Category
-  CollectionReference prodref =
-      FirebaseFirestore.instance.collection('products');
-
-  // For Special Products
-  CollectionReference specialProduct =
-      FirebaseFirestore.instance.collection('SpecialProducts');
-
-  // For Products
-  CollectionReference products =
-      FirebaseFirestore.instance.collection('products1');
- */

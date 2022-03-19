@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          'Login Screen',
+          '',
           style: TextStyle(
             color: Colors.black,
             fontSize: 27,
@@ -196,14 +196,14 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
               height: 10,
             ),
             ElevatedButtonSocial(text: 'Sign in with Google',
-                imageUrl: 'images/google.png',
+                imageUrl: 'images/google1.png',
                 function: () async=> await performLogin(),
             ),
             SizedBox(
               height: 15,
             ),
             ElevatedButtonSocial(text: 'Sign in with Facebook',
-              imageUrl: 'images/facebook.png',
+              imageUrl: 'images/facebook.jpg',
               function: () async=> await performLogin(),
             ),
           ],

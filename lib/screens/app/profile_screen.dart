@@ -97,6 +97,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(60),
                   border: Border.all(color: Colors.white70,width: 3),
                 ),
+                child: Image.network(
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-3XIZuMnGZSM9c4c2huLkoHkKIA5BmMrKQsI1dpZR3sVFroorXKzhajLDONaANwxte4E&usqp=CAU',
+                fit: BoxFit.cover,
+                ),
+                clipBehavior: Clip.antiAlias,
+
               ),
             SizedBox(height: 6,),
             InkWell(

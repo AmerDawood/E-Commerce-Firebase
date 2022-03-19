@@ -55,7 +55,7 @@ class _LoginScreenState extends State<RegisterScreen> with Helpers {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          'Register Screen',
+          '',
           style: TextStyle(
             color: Colors.black,
             fontSize: 27,

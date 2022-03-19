@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_firebase/provider/orders.dart';
 import 'package:e_commerce_firebase/screens/app/category_screen.dart';
@@ -37,7 +36,7 @@ class _DetailsScreenState extends State<DetailsScreen> with Helpers {
     getCategoryDetail();
   }
 
-  void getCategoryDetail() async {
+  void getCategoryDetail() async{
     _isLoading = true;
     try {
       final DocumentSnapshot userDoc = //widget.userId

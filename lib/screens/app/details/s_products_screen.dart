@@ -304,7 +304,7 @@ class _SProductsScreen extends State<SProductsScreen>with Helpers{
                         ),
                       ),
                       child: Text(
-                        'Add to Chart',
+                        'Add to Cart',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
